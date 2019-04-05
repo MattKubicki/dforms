@@ -1,4 +1,4 @@
 # dforms
 
-project made for python classes by Mateusz Kubicki and Jakub Gołuzin
-enjoy
+Project made for python classes by Mateusz Kubicki and Jakub Gołuzin.
+Enjoy
