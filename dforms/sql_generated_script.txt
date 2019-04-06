@@ -1,0 +1,47 @@
+BEGIN;
+--
+-- Create model Answers
+--
+CREATE TABLE "forms_answers" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT);
+--
+-- Create model Form
+--
+CREATE TABLE "forms_form" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text NOT NULL);
+--
+-- Create model Users
+--
+CREATE TABLE "forms_users" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "username" text NOT NULL, "password" text NOT NULL);
+--
+-- Create model Question
+--
+CREATE TABLE "forms_question" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question_text" varchar(100) NOT NULL, "form_id_id" integer NOT NULL REFERENCES "forms_form" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model OpenQuestionAnswers
+--
+CREATE TABLE "forms_openquestionanswers" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "answer_text" varchar(200) NOT NULL, "answer_id_id" integer NOT NULL REFERENCES "forms_answers" ("id") DEFERRABLE INITIALLY DEFERRED, "question_id" integer NOT NULL REFERENCES "forms_question" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Add field owner_id to form
+--
+CREATE TABLE "new__forms_form" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text NOT NULL, "owner_id_id" integer NOT NULL REFERENCES "forms_users" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "new__forms_form" ("id", "name", "owner_id_id") SELECT "id", "name", NULL FROM "forms_form";
+DROP TABLE "forms_form";
+ALTER TABLE "new__forms_form" RENAME TO "forms_form";
+CREATE INDEX "forms_question_form_id_id_da40459f" ON "forms_question" ("form_id_id");
+CREATE INDEX "forms_openquestionanswers_answer_id_id_481e01c0" ON "forms_openquestionanswers" ("answer_id_id");
+CREATE INDEX "forms_openquestionanswers_question_id_2178eece" ON "forms_openquestionanswers" ("question_id");
+CREATE INDEX "forms_form_owner_id_id_7e91b990" ON "forms_form" ("owner_id_id");
+--
+-- Create model Choice
+--
+CREATE TABLE "forms_choice" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "choice_text" varchar(200) NOT NULL, "answer_id_id" integer NOT NULL REFERENCES "forms_answers" ("id") DEFERRABLE INITIALLY DEFERRED, "question_id" integer NOT NULL REFERENCES "forms_question" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Add field user_id to answers
+--
+CREATE TABLE "new__forms_answers" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id_id" integer NOT NULL REFERENCES "forms_users" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "new__forms_answers" ("id", "user_id_id") SELECT "id", NULL FROM "forms_answers";
+DROP TABLE "forms_answers";
+ALTER TABLE "new__forms_answers" RENAME TO "forms_answers";
+CREATE INDEX "forms_choice_answer_id_id_f1b28ec3" ON "forms_choice" ("answer_id_id");
+CREATE INDEX "forms_choice_question_id_cb94b51a" ON "forms_choice" ("question_id");
+CREATE INDEX "forms_answers_user_id_id_b413095f" ON "forms_answers" ("user_id_id");
+COMMIT;
