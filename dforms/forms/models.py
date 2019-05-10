@@ -13,7 +13,7 @@ class Form(models.Model):
 
 class Question(models.Model):
     question_text = models.CharField(max_length=100)
-    is_open_question = False
+    is_open_question = models.BooleanField(default=True)
     form_id = models.ForeignKey(Form, on_delete=models.CASCADE)
 
     def __str__(self):

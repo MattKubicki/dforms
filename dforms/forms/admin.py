@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.forms import BooleanField
 
 from .models import Form, Question, Choice
 
@@ -11,6 +12,10 @@ admin.site.site_header = "Survey Admin"
 class QuestionsInline(admin.TabularInline):
     model = Question
     extra = 1
+    fieldsets = [
+        (None, {'fields': ['question_text']}),
+        (None, {'fields': ['is_open_question']}),
+    ]
 
 
 class FormAdmin(admin.ModelAdmin):
