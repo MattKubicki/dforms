@@ -15,7 +15,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=100)
     is_open_question = models.BooleanField(default=True)
     form_id = models.ForeignKey(Form, on_delete=models.CASCADE)
-
+#    creator = models.
     def __str__(self):
         return self.question_text
 
