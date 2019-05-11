@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main.html' %}
+
+{% block content %}
+    Hi! Please log in: <a href="{% url 'login' %}"> here </a>
+{% endblock %}

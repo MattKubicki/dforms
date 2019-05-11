@@ -3,56 +3,62 @@
 {% load static %}
 
 <html lang="pl">
-    <head>
-        <title>{{ site_title|default:"Django App" }}</title>
-        <link rel="stylesheet" type="text/css"
-              href="../forms/res/style.css" />
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
-        <style>
-            p.text_main {
-              margin-left: 10px;
-              margin-right: 10px;
-            }
-            h1.text_main {
-              margin-left: 10px;
-              margin-right: 10px;
-            }
-            button.button_style{
-              margin: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        {% block navigation %}
-            {% include 'navigation.html' %}
-        {% endblock %}
-        <div id="intro">
-            <h1 class="text_main">Welcome to the Django Polls Service</h1>
+<head>
+    <title>{{ site_title|default:"Django App" }}</title>
+    <link rel="stylesheet" type="text/css"
+          href="../forms/res/style.css"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        p.text_main {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
 
-            <div>
-                <p class="text_main">It's here where you can make your own polls, share them and of course you are able to fill already made forms</p>
+        h1.text_main {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
 
-                <p class="text_main">Please, log in to validate your actions. </p>
+        button.button_style {
+            margin: 30px;
+        }
+    </style>
+</head>
+<body>
 
-            </div>
+{% block navigation %}
+    {% include 'navigation.html' %}
+{% endblock %}
+<div id="intro">
+    <h1 class="text_main">Welcome to the Django Polls Service</h1>
+    {% block content %}
+    {% endblock %}
 
-            <div>
-                <button class="button_style" onclick="window.location.href = 'login';">Log In</button>
-            </div>
-        </div>
+    <div>
+        <p class="text_main">It's here where you can make your own polls, share them and of course you are able to fill
+            already made forms</p>
+
+        <p class="text_main">Please, log in to validate your actions. </p>
+
+    </div>
+
+    <div>
+        <button class="button_style" onclick="window.location.href = 'login';">Log In</button>
+    </div>
+</div>
 
 
-        <footer class="footer navbar-fixed-bottom">
-            <div class="container">
-                <p class="text-muted">
-                    Logged in as
-                    {{user.username}}
-                </p>
-            </div>
-        </footer>
-    </body>
+<footer class="footer navbar-fixed-bottom">
+    <div class="container">
+        <p class="text-muted">
+            Logged in as
+            {{ user.username }}
+        </p>
+    </div>
+</footer>
+</body>
 </html>
