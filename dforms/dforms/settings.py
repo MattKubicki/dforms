@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -123,3 +123,4 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'main_view'
 LOGOUT_REDIRECT_URL = 'main_view'
+AUTH_USER_MODEL = 'forms.CustomUser'
