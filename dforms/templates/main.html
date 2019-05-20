@@ -6,7 +6,7 @@
 <head>
     <title>{{ site_title|default:"Django App" }}</title>
     <link rel="stylesheet" type="text/css"
-          href="../forms/res/style.css"/>
+          href="{% static 'forms/style.css' %}"/>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
@@ -47,7 +47,7 @@
     </div>
 
     <div>
-        <button class="button_style" onclick="window.location.href = 'login';">Log In</button>
+        <button class="button_style" onclick={% url 'main_view' %}>Log In</button>
     </div>
 </div>
 
