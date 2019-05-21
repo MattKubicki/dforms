@@ -1,6 +1,8 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    Hi! Please log in: <a href="{% url 'login' %}"> here </a> <br>
-    No account? No problem! sign up <a href="{% url 'signup' %}"> here </a>
+    <div class="submit-row">
+        <label>&nbsp;</label><input type="submit" onClick="window.location.href='forms/login'" value="Log In">
+        <label>&nbsp;</label><input type="submit" onClick="window.location.href='signup'" value="Sign Up">
+    </div>
 {% endblock %}

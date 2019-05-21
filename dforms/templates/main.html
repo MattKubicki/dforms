@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/login.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/dashboard.css' %}">
+
     <title>{{ site_title|default:"Django App" }}</title>
     <link rel="stylesheet" type="text/css"
           href="{% static 'forms/style.css' %}"/>
@@ -49,11 +51,11 @@
 
         </div>
 
-    <div class="submit-row">
-        <label>&nbsp;</label><input type="submit" onClick="window.location.href='forms/login'" value="Log In">
-        <label>&nbsp;</label><input type="submit" onClick="window.location.href='signup'" value="Sign Up">
-      </div>
-</div>
+    {% block content %}
+
+    {% endblock %}
+
+    </div>
 
 
 <footer class="footer navbar-fixed-bottom">
