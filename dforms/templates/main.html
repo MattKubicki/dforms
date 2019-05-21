@@ -4,6 +4,9 @@
 
 <html lang="pl">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/login.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
     <title>{{ site_title|default:"Django App" }}</title>
     <link rel="stylesheet" type="text/css"
           href="{% static 'forms/style.css' %}"/>
@@ -13,42 +16,43 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <style>
-        p.text_main {
-            margin-left: 10px;
-            margin-right: 10px;
+        h1 {
+          text-align: center;
+          text-transform: uppercase;
+          color: #4c94af;
         }
 
-        h1.text_main {
-            margin-left: 10px;
-            margin-right: 10px;
+        p {
+          text-indent: 50px;
+          text-align: justify;
+          letter-spacing: 3px;
         }
 
-        button.button_style {
-            margin: 30px;
+        a {
+          text-decoration: none;
+          color: #008CBA;
         }
     </style>
 </head>
 <body>
 
-{% block navigation %}
-    {% include 'navigation.html' %}
-{% endblock %}
-<div id="intro">
-    <h1 class="text_main">Welcome to the Django Polls Service</h1>
-    {% block content %}
+    {% block navigation %}
+        {% include 'navigation.html' %}
     {% endblock %}
+    <div id="content" class="colMS">
+        <h1>Welcome to the Django Polls Service</h1>
+        <div>
+            <p class="text_main">It's here where you can make your own polls, share them and of course you are able to fill
+                already made forms</p>
 
-    <div>
-        <p class="text_main">It's here where you can make your own polls, share them and of course you are able to fill
-            already made forms</p>
+            <p class="text_main">Please, log in to validate your actions or sign up if you still don't have an account. </p>
 
-        <p class="text_main">Please, log in to validate your actions. </p>
+        </div>
 
-    </div>
-
-    <div>
-        <button class="button_style" onclick={% url 'main_view' %}>Log In</button>
-    </div>
+    <div class="submit-row">
+        <label>&nbsp;</label><input type="submit" onClick="window.location.href='forms/login'" value="Log In">
+        <label>&nbsp;</label><input type="submit" onClick="window.location.href='signup'" value="Sign Up">
+      </div>
 </div>
 
 
@@ -62,3 +66,10 @@
 </footer>
 </body>
 </html>
+
+
+
+
+
+
+

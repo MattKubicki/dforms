@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load bootstrap3 %}
+{% load static %}
+
+<html lang="pl">
+<head>
+    <title>{{ site_title|default:"Django App" }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/login.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
+    <style>
+        form.main {
+            margin-left: 50px;
+            margin-top: 10px;
+        }
+    </style>
+    {% bootstrap_css %}
+</head>
+<body class="login">
+{% block navigation %}
+    {% include 'navigation.html' %}
+{% endblock %}
+<div id="container">
+
+{% block content %}
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name">Login</h1>
+        </div>
+    </div>
+<form class="main" method="post">
+
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="Log in">
+    <label>&nbsp;</label><input type="submit" onClick="window.history.back()" value="Cancel">
+  </div>
+</form>
+{% endblock %}
+</div>
+</body>
