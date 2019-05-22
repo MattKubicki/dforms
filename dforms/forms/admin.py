@@ -10,6 +10,9 @@ from .models import CustomUser
 # admin.site.register(Question)
 
 admin.site.site_header = "Survey Admin"
+admin.site.register(Question)
+admin.site.register(Form)
+admin.site.register(Choice)
 
 
 class QuestionsInline(admin.TabularInline):

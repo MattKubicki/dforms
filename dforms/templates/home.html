@@ -1,77 +1,88 @@
 <!DOCTYPE html>
 {% load static %}
 
-<html lang="en-us" >
+<html lang="en-us">
 <head>
-<title>Site administration | Django site admin</title>
-<link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static '/admin/css/dashboard.css' %}">
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
-    
+    <title>Site administration | Django site admin</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/dashboard.css' %}">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
 
-<meta name="robots" content="NONE,NOARCHIVE">
+
+    <meta name="robots" content="NONE,NOARCHIVE">
 </head>
 
 
 <body class=" dashboard"
-  data-admin-utc-offset="7200">
+      data-admin-utc-offset="7200">
 
 <!-- Container -->
 <div id="container">
     <!-- Header -->
     <div id="header">
         <div id="branding">
-<h1 id="site-name">User Panel</h1>
+            <h1 id="site-name">User Panel</h1>
 
         </div>
         <div id="user-tools">
-                Welcome,
-                <strong>{{ user.username }}</strong>.
-                <a href="{% url 'logout' %}">Log out</a>
+            Welcome,
+            <strong>{{ user.username }}</strong>.
+            <a href="{% url 'logout' %}">Log out</a>
         </div>
     </div>
     <!-- END Header -->
-        <!-- Content -->
+    <!-- Content -->
     <div id="content" class="colMS">
-        
+
         <h1>Below you can create your forms, edit them or send your answers to those already existing.</h1>
-        
-<div id="content-main">
-        <div class="app-auth module">
-        <table>
-        <caption>
-            <a class="section">Create form!</a>
-        </caption>
-            <tr class="model-group">
-                <th scope="row"><a>Forms</a></th>
-                <td><a href="{% url 'createform' %}" class="addlink">Add</a></td>
-            </tr>
-        </table>
-        </div><div class="app-auth module">
-        <table>
-        <caption>
-            <a class="section">Edit your form!</a>
-        </caption>
 
-            <tr class="model-group">
-                <th scope="row"><a>Your forms</a></th>
-                <td><a href="{% url 'forms' %}" class="changelink">Change</a></td>
-            </tr>
+        <div id="content-main">
+            <div class="app-auth module">
+                <table>
+                    <caption>
+                        <a class="section">Create form!</a>
+                    </caption>
+                    <tr class="model-group">
+                        <th scope="row"><a>Forms</a></th>
+                        <td><a href="{% url 'createform' %}" class="addlink">Add</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="app-auth module">
+                <table>
+                    <caption>
+                        <a class="section">Edit your form!</a>
+                    </caption>
 
-        </table>
+                    <tr class="model-group">
+                        <th scope="row"><a>Your forms</a></th>
+                        <td><a href="{% url 'forms' %}" class="changelink">Change</a></td>
+                    </tr>
+
+                </table>
+            </div>
+
+
         </div>
 
 
-</div>
+        <div id="content-related">
+            <div class="module" id="recent-actions-module">
+                <h2>Recent posted forms</h2>
+                {% if latest_forms_list %}
+                    <ul>
+                        {% for form in latest_forms_list %}
+                            <li><a href="/forms/{{ form.id }}/">{{ form.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No polls are available.</p>
+                {% endif %}
 
-        
-<div id="content-related">
-    <div class="module" id="recent-actions-module">
-        <h2>Recent posted forms</h2>
-        <p>None available</p>
-    </div>
-</div>
+
+            </div>
+        </div>
 
         <br class="clear">
     </div>

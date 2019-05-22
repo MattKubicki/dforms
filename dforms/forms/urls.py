@@ -11,5 +11,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('forms', views.user_forms_view, name='forms'),
     path('createform', views.create_form, name='createform'),
-
+    path('<int:question_id>/vote/', views.vote_question, name='vote'),
 ]

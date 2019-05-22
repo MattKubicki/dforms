@@ -6,6 +6,8 @@ from forms.additional_forms import SignUpForm
 from django.views import generic
 from django.urls import reverse_lazy
 from .user_forms import CustomUserCreationForm
+from .models import Form, Question, Choice
+
 
 
 
@@ -13,8 +15,10 @@ from forms.models import Form
 
 
 def main_view(request):
+    latest_forms_list = Form.objects.order_by('-pub_date')[:5]
+    context = {'latest_forms_list': latest_forms_list}
     if request.user.is_authenticated:
-        return render(request, 'home.html') #switched from main to home, which extends main
+        return render(request, 'home.html', context) #switched from main to home, which extends main
     else:
         return render(request, 'not_logged.html') #further redirects to login site
 # Create your views here.
@@ -28,6 +32,22 @@ def question_view(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
     return render(request, 'question_view.html', {'form': form})
 
+
+def vote_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    form_id = question.form_id
+    form = form_id
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'question_view.html', {
+            'form': form,
+            'error_message': "No choice selected"
+        })
+    else:
+        selected_choice.votes += 1;
+        selected_choice.save()
+    return render(request, 'question_view.html', {'form': form})
 
 
 class SignUp(generic.CreateView):
@@ -54,3 +74,11 @@ def user_forms_view(request):
 
 def create_form(request):
     return render(request, 'createform.html')
+
+#
+# def form_created(request, name, questions):
+#     form = Form.objects.create(name=name, owner_id=request.user)
+#
+#     return render(request, 'createform.html')
+
+

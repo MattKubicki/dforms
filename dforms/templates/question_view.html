@@ -1,16 +1,30 @@
 {{ form.name }}
-<br />
-        <div class="row">
-            {% for question in form.question_set.all %}
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="form-control">
-                            {{ question.question_text }}
+<br/>
+<div class="row">
+    <ul>
+        {% for question in form.question_set.all %}
+            <div class="col-lg-6">
+                <div class="input-group">
+            <span class="form-control">
+        <li> {{ question.question_text }}</li>
                         </span>
-                        <br />
-                        <textarea rows = "5" cols = "50" name = "">
-                        </textarea>
-                    </div>
+                    <ul>
+                        <form action="{% url 'vote' question.id%}" method="post">
+                            {% csrf_token %}
+
+                            {% for choice in question.choice_set.all %}
+                                <input type="radio" name="choice" id="choice{{ forloop.counter }}"
+                                       value="{{ choice.id }}">
+                                <label for="choice{{ forloop.counter }}">{{ choice.choice_text}}</label>
+                                |Votes: {{ choice.votes}}
+                                <br>
+                            {% endfor %}
+                        <input type="submit" value="Vote">
+                        </form>
+                    </ul>
+                    <br/>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
+    </ul>
+</div>

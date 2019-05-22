@@ -44,8 +44,8 @@
     <div id="content" class="colM">
         <h1>Add form</h1>
         <div id="content-main">
-
-<form action="" method="post" id="form_form" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="dffvmrUcmfTad6qgCZygqzJpmI8eqWxSJGEwfmkbplR1D7jz26einwtPT1StxTsr">
+<!--value="dffvmrUcmfTad6qgCZygqzJpmI8eqWxSJGEwfmkbplR1D7jz26einwtPT1StxTsr" -->
+<form action="" method="post" id="form_form" novalidate><input type="hidden" name="csrfmiddlewaretoken">{% csrf_token %}
 <div>
 
   <fieldset class="module aligned ">
@@ -84,6 +84,8 @@
               <td class="field-question_text">
                     {% if is_open_question == false %}
                           <input type="text" name="choice_set-0-choice_text" class="vTextField" maxlength="100" id="id_choice_set-0-choice_text">
+                         {% csrf_token %}
+                        {{ form.as_p }}
                             <div class="js-inline-admin-formset inline-group" id="choice_set-group"
                                  data-inline-type="tabular"
                                  data-inline-formset="{&quot;name&quot;: &quot;#choice_set&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;choice_set&quot;, &quot;addText&quot;: &quot;Add another Answer&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
