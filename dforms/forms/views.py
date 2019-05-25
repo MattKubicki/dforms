@@ -8,11 +8,7 @@ from django.urls import reverse_lazy
 from .user_forms import CustomUserCreationForm
 from .models import Form, Question, Choice
 
-
-
-
 from forms.models import Form
-
 
 def main_view(request):
     latest_forms_list = Form.objects.order_by('-pub_date')[:5]
@@ -26,6 +22,11 @@ def main_view(request):
 
 def login_view(request):
     return render(request, 'registration/login.html')
+
+
+def filled(request, form_id):
+    form = get_object_or_404(Form, pk=form_id)
+    return render(request, 'filled.html', {'form': form})
 
 
 def question_view(request, form_id):
@@ -45,7 +46,7 @@ def vote_question(request, question_id):
             'error_message': "No choice selected"
         })
     else:
-        selected_choice.votes += 1;
+        selected_choice.votes += 1
         selected_choice.save()
     return render(request, 'question_view.html', {'form': form})
 
