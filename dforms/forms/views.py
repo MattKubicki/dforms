@@ -29,6 +29,10 @@ def filled(request, form_id):
     return render(request, 'filled.html', {'form': form})
 
 
+def posted(request):
+    return render(request, 'posted.html')
+
+
 def question_view(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
     return render(request, 'question_view.html', {'form': form})
@@ -73,13 +77,15 @@ class SignUp(generic.CreateView):
 def user_forms_view(request):
     return render(request, 'forms.html')
 
+
 def create_form(request):
-    return render(request, 'createform.html')
-
-#
-# def form_created(request, name, questions):
-#     form = Form.objects.create(name=name, owner_id=request.user)
-#
-#     return render(request, 'createform.html')
-
-
+    if request.method == 'POST':
+        if request.POST.get('name'):
+            form = Form()
+            form.name = request.POST.get('name')
+            form.owner_id = request.user
+            form.save()
+            print(form.name)
+            return render(request, 'createform.html')
+    else:
+        return render(request, 'createform.html')

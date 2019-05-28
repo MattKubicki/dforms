@@ -13,4 +13,5 @@ urlpatterns = [
     path('createform', views.create_form, name='createform'),
     path('<int:question_id>/vote/', views.vote_question, name='vote'),
     path('filled/<int:form_id>', views.filled, name='filled'),
+    path('posted', views.posted, name='posted'),
 ]
