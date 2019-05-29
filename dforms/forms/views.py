@@ -31,18 +31,30 @@ def filled(request, form_id):
 
 def posted(request):
     if request.method == 'POST':
-        if request.POST.get('name'):
+        if request.POST.get('form_name'):
             form = Form()
-            form.name = request.POST.get('name')
+            form.name = request.POST.get('form_name')
             form.owner_id = request.user
             form.save()
-            if request.POST.get('question_name'):
-                list = request.POST.getlist('question_name')
-                for q in list:
+            if request.POST.get('question_name[]'):
+                questions_input = request.POST.getlist('question_name[]')
+                size = len(questions_input)
+                for i in range(0, size):
                     question = Question()
-                    question.question_text = q
+                    question.question_text = questions_input[i]
                     question.form_id = form
                     question.save()
+                    index = i+1
+                    getter = 'choice_name'+str(index)
+                    if request.POST.get(getter):
+                        choices_input = request.POST.getlist(getter)
+                        print(choices_input)
+                        print(request.POST)
+                        for c in choices_input:
+                            choice = Choice()
+                            choice.choice_text = c
+                            choice.question = question
+                            choice.save()
     return render(request, 'posted.html')
 
 

@@ -17,13 +17,36 @@
 <script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
 <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
 <script type="text/javascript" >
-    function addRow() {
-    var div = document.createElement('div');
+    var i=0;
+    function addQuestion() {
+        i++;
+        var div = document.createElement('div');
 
-    div.className = 'row';
-    div.id = 'questions'
-    div.innerHTML =
-        '<input type="text" name="question_name"/>';
+        div.className = 'row';
+        div.id = 'questions';
+        div.style = "display:flex; flex-direction: column; justify-content: left; align-items: left";
+        div.innerHTML =
+            '<label>Question '+ i +': <label/>'+
+            '<input type="text" name="question_name[]" id="question_name'+i+'"/>'+
+            ' <div id="choices_field" class="choice-row field-name" >\n' +
+            '            <td>\n' +
+            '              <a href="#" onclick="addChoice()" class="addlink">Add Choice</a>\n' +
+            '            </td>\n' +
+            '        </div>';
+
+        document.getElementById('questions_field').appendChild(div);
+}
+</script>
+<script type="text/javascript" >
+    var j=0;
+    function addChoice() {
+        j++;
+        var div = document.createElement('div');
+
+        div.className = 'row';
+        div.id = 'choices';
+        div.innerHTML =
+            '<input type="text" name="choice_name'+i+'"/>';
 
     document.getElementById('questions_field').appendChild(div);
 }
@@ -214,14 +237,15 @@
         <div class="form-row field-name">
                 <div>
                     <label class="required" for="id_name">Name:</label>
-                    <input type="text" name="name"/><br/>
+                    <input type="text" name="form_name"/><br/>
                 </div>
         </div>
         <div id="questions_field" class="question-row field-name" >
             <td>
-              <a href="#" onclick="addRow()" class="addlink">Add Question</a>
+              <a href="#" onclick="addQuestion()" class="addlink">Add Question</a>
             </td>
         </div>
+
       </fieldset>
     <input type="submit" value="Post"/>
 </form>
