@@ -16,6 +16,18 @@
 <script type="text/javascript" src="/static/admin/js/urlify.js"></script>
 <script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
 <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+<script type="text/javascript" >
+    function addRow() {
+    var div = document.createElement('div');
+
+    div.className = 'row';
+    div.id = 'questions'
+    div.innerHTML =
+        '<input type="text" name="question_name"/>';
+
+    document.getElementById('questions_field').appendChild(div);
+}
+</script>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
 <meta name="robots" content="NONE,NOARCHIVE">
@@ -195,7 +207,7 @@
 {#    <!-- END Content -->#}
 {##}
 {#    <div id="footer"></div>#}
-
+{#  w form action uniemozliwia dodanie skurwysyna#}
 <form action="{% url 'posted' %}" method="POST">
         {% csrf_token %}
       <fieldset class="module aligned ">
@@ -204,6 +216,11 @@
                     <label class="required" for="id_name">Name:</label>
                     <input type="text" name="name"/><br/>
                 </div>
+        </div>
+        <div id="questions_field" class="question-row field-name" >
+            <td>
+              <a href="#" onclick="addRow()" class="addlink">Add Question</a>
+            </td>
         </div>
       </fieldset>
     <input type="submit" value="Post"/>

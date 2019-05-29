@@ -30,6 +30,19 @@ def filled(request, form_id):
 
 
 def posted(request):
+    if request.method == 'POST':
+        if request.POST.get('name'):
+            form = Form()
+            form.name = request.POST.get('name')
+            form.owner_id = request.user
+            form.save()
+            if request.POST.get('question_name'):
+                list = request.POST.getlist('question_name')
+                for q in list:
+                    question = Question()
+                    question.question_text = q
+                    question.form_id = form
+                    question.save()
     return render(request, 'posted.html')
 
 
@@ -79,13 +92,4 @@ def user_forms_view(request):
 
 
 def create_form(request):
-    if request.method == 'POST':
-        if request.POST.get('name'):
-            form = Form()
-            form.name = request.POST.get('name')
-            form.owner_id = request.user
-            form.save()
-            print(form.name)
-            return render(request, 'createform.html')
-    else:
-        return render(request, 'createform.html')
+    return render(request, 'createform.html')
