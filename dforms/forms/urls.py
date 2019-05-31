@@ -9,9 +9,11 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('signup', views.SignUp.as_view(), name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('forms', views.user_forms_view, name='forms'),
+    path('forms', views.UserAnnouncesList.as_view(), name='forms'),
     path('createform', views.create_form, name='createform'),
     path('<int:question_id>/vote/', views.vote_question, name='vote'),
     path('filled/<int:form_id>', views.filled, name='filled'),
     path('posted', views.posted, name='posted'),
+    path('forms/removed/<int:form_id>', views.remove_form, name='delete_view'),
+
 ]

@@ -1,3 +1,52 @@
-<p>
-            There will be edit possibility.
-        </p>
+<!DOCTYPE html>
+{% load bootstrap3 %}
+{% load static %}
+<html lang="en-us" >
+<head>
+<title>Add form | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+    <style>
+        a:link {
+          color: red;
+        }
+    </style>
+</head>
+<body class=" app-forms model-form change-form"
+  data-admin-utc-offset="0">
+
+<!-- Container -->
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name">User Panel</h1>
+        </div>
+        <div id="user-tools">
+                Welcome,
+                <strong>{{ user.username }}</strong>.
+                <a href="{% url 'logout' %}">Log out</a>
+        </div>
+    </div>
+    <!-- END Header -->
+    <!-- Content -->
+    <div id="content" class="colM">
+        <h1>Select your form to change:</h1>
+        {% for forms in all_forms_created_by_user %}
+            <h1>{{forms.user.username}}</h1>
+            <a href="{% url 'logout' %}">{{forms.name}}</a>
+            <td>
+                <a  title="Delete this form!" style="float: right;" href="{% url 'delete_view' forms.id%}"><i class="fa fa-trash"></i></a>
+            </td>
+            <span style="float: right">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span style="float: right"> Was published: {{forms.pub_date}}</span>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

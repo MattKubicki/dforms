@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 #from django.http import HttpResponse
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.views.generic import ListView
+
 from forms.additional_forms import SignUpForm
 from django.views import generic
 from django.urls import reverse_lazy
@@ -9,6 +11,13 @@ from .user_forms import CustomUserCreationForm
 from .models import Form, Question, Choice
 
 from forms.models import Form
+
+
+def remove_form(request, form_id=None):
+    object = Form.objects.get(id=form_id)
+    object.delete()
+    return render(request, 'delete_view.html')
+
 
 def main_view(request):
     latest_forms_list = Form.objects.order_by('-pub_date')[:5]
@@ -99,9 +108,18 @@ class SignUp(generic.CreateView):
 #     else:
 #         form = SignUpForm()
 #     return render(request, 'signup.html', {'form': form})
-def user_forms_view(request):
-    return render(request, 'forms.html')
+
+class UserAnnouncesList(ListView):
+
+    model = Form
+    template_name = 'forms.html'
+    context_object_name = 'all_forms_created_by_user'
+
+    def get_queryset(self):
+        return Form.objects.filter(owner_id=self.request.user)
 
 
 def create_form(request):
     return render(request, 'createform.html')
+
+
