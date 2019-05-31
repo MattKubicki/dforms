@@ -38,7 +38,7 @@ def filled(request, form_id):
     return render(request, 'filled.html', {'form': form})
 
 
-def posted(request):
+def parse_form_input(request):
     if request.method == 'POST':
         if request.POST.get('form_name'):
             form = Form()
@@ -57,14 +57,23 @@ def posted(request):
                     getter = 'choice_name'+str(index)
                     if request.POST.get(getter):
                         choices_input = request.POST.getlist(getter)
-                        print(choices_input)
-                        print(request.POST)
                         for c in choices_input:
                             choice = Choice()
                             choice.choice_text = c
                             choice.question = question
                             choice.save()
     return render(request, 'posted.html')
+
+
+def posted(request):
+    return parse_form_input(request)
+
+
+def posted_and_edit(request, form_id=None):
+    if form_id is not None:
+        object = Form.objects.get(id=form_id)
+        object.delete()
+    return parse_form_input(request)
 
 
 def question_view(request, form_id):
@@ -116,7 +125,7 @@ class UserAnnouncesList(ListView):
     context_object_name = 'all_forms_created_by_user'
 
     def get_queryset(self):
-        return Form.objects.filter(owner_id=self.request.user)
+        return Form.objects.filter(owner_id=self.request.user).order_by('-pub_date')
 
 
 def create_form(request):

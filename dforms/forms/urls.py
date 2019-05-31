@@ -14,6 +14,7 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote_question, name='vote'),
     path('filled/<int:form_id>', views.filled, name='filled'),
     path('posted', views.posted, name='posted'),
-    path('forms/removed/<int:form_id>', views.remove_form, name='delete_view'),
+    path('posted/<int:form_id>', views.posted_and_edit, name='posted_and_edit'),
+    path('forms/remove/<int:form_id>', views.remove_form, name='delete_view'),
     path('forms/edit/<int:form_id>', views.edit_form, name='form_view')
 ]

@@ -45,7 +45,7 @@
     <div id="content" class="colM">
         <h1>You are in edit-mode":</h1>
         <br>
-        <form action="{% url 'posted' %}" method="POST">
+        <form action="{% url 'posted_and_edit' form.id %}" method="POST">
             {% csrf_token %}
 
             <span class="form-control">
