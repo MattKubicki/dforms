@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load bootstrap3 %}
+{% load static %}
+<html lang="en-us" >
+<head>
+<title>Edit form | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+<style>
+    strong1{
+        font-weight:bold;
+        font-size:16px;
+    }
+    strong2{
+        font-weight:bold;
+        font-size:14px;
+    }
+    strong3{
+        font-weight:bold;
+        font-size:12px;
+    }
+</style>
+</head>
+<body class=" app-forms model-form change-form"
+  data-admin-utc-offset="0">
+
+<!-- Container -->
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name">User Panel</h1>
+        </div>
+        <div id="user-tools">
+                Welcome,
+                <strong>{{ user.username }}</strong>.
+                <a href="{% url 'logout' %}">Log out</a>
+        </div>
+    </div>
+    <!-- END Header -->
+    <!-- Content -->
+    <div id="content" class="colM">
+        <h1>You are in edit-mode":</h1>
+        <br>
+        <form action="{% url 'posted' %}" method="POST">
+            {% csrf_token %}
+
+            <span class="form-control">
+                <strong1>Name: </strong1>
+                <input type="text" name="form_name" value="{{ form.name }}"> </br>
+            </span>
+            <br>
+            <br>
+            {% for question in form.question_set.all %}
+                <div class="col-lg-6">
+                <span class="form-control">
+                    <strong2>Question {{ forloop.counter }}:</strong2>
+                    <input type="text" name="question_name[]" id="question_name{{ forloop.counter }}" value="{{ question.question_text }}"> </br>
+                </span>
+                <br>
+                {% for choice in question.choice_set.all %}
+                    <span class="form-control">
+                        <strong3>Choice {{ forloop.counter }}:</strong3>
+                        <input type="text" name="choice_name{{ forloop.parentloop.counter }}" value="{{ choice.choice_text }}"> </br>
+                    </span>
+                {% endfor %}
+                <br>
+                <br>
+                </div>
+
+            {% endfor %}
+        <input type="submit" value="Post"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

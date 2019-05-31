@@ -123,3 +123,6 @@ def create_form(request):
     return render(request, 'createform.html')
 
 
+def edit_form(request, form_id):
+    form = get_object_or_404(Form, pk=form_id)
+    return render(request, 'form_view.html', {'form': form})
