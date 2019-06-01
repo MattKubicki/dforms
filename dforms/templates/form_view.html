@@ -23,17 +23,44 @@
         font-size:12px;
     }
 </style>
+<script type="text/javascript">
+    var elements = 0;
+    function addQuestion(currentQuestion, elems) {
+        elements = elems;
+        elements++;
+        var div = document.createElement("div");
+        div.className="col-lg-6";
+        var question=currentQuestion+1;
+        div.id = "name" + question;
+
+        div.innerHTML =
+            '<div id="questions'+elements+'">'+
+            '<span class="form-control" >'+
+            '<br>'+
+            '<a href="#" onclick="removeQuestion('+question+','+elements+')" title="Delete this question!"><i class="deletelink"></i></a>' +
+            '<strong2>Added question: </strong2>' +
+            '<input type="text" name="question_name[]" id="question_name'+elements+'" value=""> </br>'+
+            '</span>'+
+            '<br>'+
+            '<td>' +
+            '<a href="#" onclick="addChoice('+question+','+elements+')" class="addlink">Add Choice</a>' +
+            '</td>'+
+            '</div>';
+        var parentDiv = "name";
+        parentDiv += currentQuestion;
+        document.getElementById(parentDiv).appendChild(div);
+    }
+</script>
 <script type="text/javascript" >
     var elements = 0;
     function addChoice(currentQuestion, elems) {
-        {#if (elems>elements)#}
-            elements = elems;
+        elements = elems;
         elements++;
         var span = document.createElement("span");
         span.class="form-control";
         span.id = "choices"+elements;
         span.innerHTML =
-            '<a href="#" onclick="removeChoice('+currentQuestion+', '+elements+')" title="Delete this form!"><i class="deletelink"></i></a>'+
+            '<a href="#" onclick="removeChoice('+currentQuestion+', '+elements+')" title="Delete this choice!"><i class="deletelink"></i></a>'+
             '<strong3>Added Choice: </strong3>'+
             '<input type="text" name="choice_name'+currentQuestion+'"> </br>';
         var str = "name";
@@ -43,8 +70,19 @@
 </script>
 <script type="text/javascript" >
     function removeChoice(currentQuestion, elems) {
-        var div = document.getElementById("name"+currentQuestion);
+        console.log(currentQuestion);
+        console.log(elems);
+        var div = document.getElementById("questions"+currentQuestion);
         var spanToRemove = document.getElementById("choices"+elems);
+        div.removeChild(spanToRemove);
+    }
+</script>
+<script type="text/javascript" >
+    function removeQuestion(currentQuestion, elems) {
+
+        var div = document.getElementById("name"+currentQuestion);
+        var spanToRemove = document.getElementById("questions"+elems);
+
         div.removeChild(spanToRemove);
     }
 </script>
@@ -78,18 +116,19 @@
                 <input type="text" name="form_name" value="{{ form.name }}"> </br>
             </span>
             <br>
-            <br>
             {% for question in form.question_set.all %}
                 <div class="col-lg-6" id="name{{ forloop.counter }}">
-                <span class="form-control">
+                <div id = "questions{{ forloop.counter }}"}>
+                <span class="form-control" >
                     <br>
+                    <a href="#" onclick="removeQuestion({{ forloop.counter }},{{ forloop.counter }})" title="Delete this choice!"><i class="deletelink"></i></a>
                     <strong2>Question {{ forloop.counter }}:</strong2>
                     <input type="text" name="question_name[]" id="question_name{{ forloop.counter }}" value="{{ question.question_text }}"> </br>
                 </span>
                 <br>
                 {% for choice in question.choice_set.all %}
                     <span class="form-control" id="choices{{ forloop.counter }}">
-                        <a href="#" onclick="removeChoice({{ forloop.parentloop.counter }}, {{ forloop.counter }})" title="Delete this form!"><i class="deletelink"></i></a>
+                        <a href="#" onclick="removeChoice({{ forloop.parentloop.counter }}, {{ forloop.counter }})" title="Delete this choice!"><i class="deletelink"></i></a>
                         <strong3>Choice {{ forloop.counter }}:</strong3>
                         <input type="text" name="choice_name{{ forloop.parentloop.counter }}" value="{{ choice.choice_text }}"> </br>
                     </span>
@@ -98,11 +137,16 @@
                 <td>
                     <a href="#" onclick="addChoice({{ forloop.counter }}, {{ question.choice_set.all|length }})" class="addlink">Add Choice</a>
                 </td>
-                <br>
-                <br>
+                </div>
                 </div>
 {#{{ question.choice_set.all|length }},#}
+                <br>
+                <td>
+                    <a href="#" onclick="addQuestion({{ forloop.counter }}, {{form.question_set.all|length}})" class="addlink">Add Question</a>
+                </td>
             {% endfor %}
+
+                <br>
         <input type="submit" value="Post"/>
         </form>
     </div>
