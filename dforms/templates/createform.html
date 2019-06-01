@@ -27,7 +27,8 @@
         div.id = 'question'+i;
         div.style = "display:flex; flex-direction: column; justify-content: left; align-items: left";
         div.innerHTML =
-            '<label>Question '+ i +': <label/>'+
+            '<br>'+
+            '<strong2>Question '+ i +': </strong2>'+
             '<input type="text" name="question_name[]" id="question_name'+i+'"/>'+
             ' <div id="choices_field" class="choice-row field-name" >\n' +
             '            <td>\n' +
@@ -38,21 +39,21 @@
         document.getElementById('questions_field').appendChild(div);
 }
 </script>
+    <style>
+    strong1{
+        font-weight:bold;
+        font-size:16px;
+    }
+    strong2{
+        font-weight:bold;
+        font-size:14px;
+    }
+    strong3{
+        font-weight:bold;
+        font-size:12px;
+    }
+</style>
 <script type="text/javascript" >
-    {#var j=0;#}
-    {#function addChoice(currentQuestion) {#}
-    {#    j++;#}
-    {#    var div = document.createElement('div');#}
-    {#    console.log("dupa");#}
-    {#    console.log(currentQuestion);#}
-    {#    var lastChar = currentQuestion.charAt(currentQuestion.length - 1);#}
-    {#    console.log(lastChar);#}
-    {#    div.className = 'row';#}
-    {#    div.id = 'choices';#}
-    {#    div.innerHTML =#}
-    {#        '<input type="text" name="choice_name'+lastChar+'"/>';#}
-    {#wrzuc do name ostatni znak currQuestion#}
-    {#document.getElementById('questions').appendChild(div);#}
     var j=0;
     function addChoice(id) {
         j++;
@@ -63,7 +64,10 @@
         div.className = 'row';
         div.id = 'choices';
         div.innerHTML =
-            '<input type="text" name="choice_name'+id+'"/>';
+            '<span>'+
+            '<strong3>Choice: </strong3>'+
+            '<input type="text" name="choice_name'+id+'"/>'+
+            '</span>';
     document.getElementById('question' + id).appendChild(div);
 }
 </script>
@@ -92,167 +96,17 @@
     <div id="content" class="colM">
         <h1>Add form</h1>
         <div id="content-main">
-{#<!--value="dffvmrUcmfTad6qgCZygqzJpmI8eqWxSJGEwfmkbplR1D7jz26einwtPT1StxTsr" -->#}
-{#<form action="" method="post" id="form_form" novalidate><input type="hidden" name="csrfmiddlewaretoken">{% csrf_token %}#}
-{#<div>#}
-{##}
-{#  <fieldset class="module aligned ">#}
-{#        <div class="form-row field-name">#}
-{#                <div>#}
-{#                        <label class="required" for="id_name">Name:</label>#}
-{#                            <textarea name="name" cols="40" rows="1" class="vTextField" maxlength="256" required id="id_name"></textarea>#}
-{#                </div>#}
-{#        </div>#}
-{#</fieldset>#}
-{#<div class="js-inline-admin-formset inline-group" id="question_set-group"#}
-{#     data-inline-type="tabular"#}
-{#     data-inline-formset="{&quot;name&quot;: &quot;#question_set&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;question_set&quot;, &quot;addText&quot;: &quot;Add another Question&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">#}
-{#  <div class="tabular inline-related last-related">#}
-{#<input type="hidden" name="question_set-TOTAL_FORMS" value="1" id="id_question_set-TOTAL_FORMS"><input type="hidden" name="question_set-INITIAL_FORMS" value="0" id="id_question_set-INITIAL_FORMS"><input type="hidden" name="question_set-MIN_NUM_FORMS" value="0" id="id_question_set-MIN_NUM_FORMS"><input type="hidden" name="question_set-MAX_NUM_FORMS" value="1000" id="id_question_set-MAX_NUM_FORMS">#}
-{#<fieldset class="module ">#}
-{#   <h2>Questions</h2>#}
-{#   #}
-{#   <table>#}
-{#     <thead><tr>#}
-{#       <th class="original"></th>#}
-{#         <th class="column-question_text required">Question text#}
-{#         </th>#}
-{#         <th class="column-is_open_question">Is open question#}
-{#         </th>#}
-{#     <th>Delete?</th>#}
-{#     </tr></thead>#}
-{##}
-{#     <tbody>#}
-{#        <tr class="form-row row1 "#}
-{#             id="question_set-0">#}
-{#        <td class="original">#}
-{#          <input type="hidden" name="question_set-0-id" id="id_question_set-0-id">#}
-{#          <input type="hidden" name="question_set-0-form_id" id="id_question_set-0-form_id">#}
-{#        </td>#}
-{#              <td class="field-question_text">#}
-{#                    {% if is_open_question == false %}#}
-{#                          <input type="text" name="choice_set-0-choice_text" class="vTextField" maxlength="100" id="id_choice_set-0-choice_text">#}
-{#                         {% csrf_token %}#}
-{#                        {{ form.as_p }}#}
-{#                            <div class="js-inline-admin-formset inline-group" id="choice_set-group"#}
-{#                                 data-inline-type="tabular"#}
-{#                                 data-inline-formset="{&quot;name&quot;: &quot;#choice_set&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;choice_set&quot;, &quot;addText&quot;: &quot;Add another Answer&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">#}
-{#                              <div class="tabular inline-related last-related">#}
-{#                            <input type="hidden" name="choice_set-TOTAL_FORMS" value="1" id="id_choice_set-TOTAL_FORMS"><input type="hidden" name="choice_set-INITIAL_FORMS" value="0" id="id_choice_set-INITIAL_FORMS"><input type="hidden" name="choice_set-MIN_NUM_FORMS" value="0" id="id_choice_set-MIN_NUM_FORMS"><input type="hidden" name="choice_set-MAX_NUM_FORMS" value="1000" id="id_choice_set-MAX_NUM_FORMS">#}
-{#                            <fieldset class="module ">#}
-{#                               <h2>Answers</h2>#}
-{##}
-{#                                   <table>#}
-{#                                     <thead><tr>#}
-{#                                       <th class="original"></th>#}
-{#                                         <th class="column-choice_text required">Choice text#}
-{#                                         </th>#}
-{#                                     <th>Delete?</th>#}
-{#                                     </tr>#}
-{#                                     </thead>#}
-{#                                     <tbody>#}
-{#                                        <tr class="form-row row1 "#}
-{#                                             id="choice_set-0">#}
-{#                                        <td class="original">#}
-{#                                          <input type="hidden" name="choice_set-0-id" id="choice_set-0-id">#}
-{#                                          <input type="hidden" name="choice_set-0-question_id" id="choice_set-0-question_id">#}
-{#                                        </td>#}
-{#                                              <td class="field-choice_text">#}
-{#                                                  <input type="text" name="choice_set-0-choice_text" class="vTextField" maxlength="100" id="id_choice_set-0-choice_text">#}
-{##}
-{#                                              </td>#}
-{#                                          <td class="delete"></td>#}
-{#                                        </tr>#}
-{#                                        <tr class="form-row row2  empty-form"#}
-{#                                             id="choice_set-empty">#}
-{#                                        <td class="original">#}
-{#                                          <input type="hidden" name="choice_set-__prefix__-id" id="id_choice_set-__prefix__-id">#}
-{#                                          <input type="hidden" name="choice_set-__prefix__-question_id" id="id_choice_set-__prefix__-question_id">#}
-{#                                        </td>#}
-{#                                              <td class="field-choice_text">#}
-{#                                                  <input type="text" name="choice_set-__prefix__-choice_text" class="vTextField" maxlength="100" id="id_choice_set-__prefix__-choice_text">#}
-{#                                              </td>#}
-{#                                          <td class="delete"></td>#}
-{#                                        </tr>#}
-{#                                     </tbody>#}
-{#                                   </table>#}
-{#                                </fieldset>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                             {% endif %}#}
-{#                      </td>#}
-{#              <td class="field-is_open_question">#}
-{#                  <input type="checkbox" name="question_set-0-is_open_question" id="id_question_set-0-is_open_question" checked>#}
-{##}
-{#              </td>#}
-{#          <td class="delete"></td>#}
-{#        </tr>#}
-{#        <tr class="form-row row2  empty-form"#}
-{#             id="question_set-empty">#}
-{#        <td class="original">#}
-{#          <input type="hidden" name="question_set-__prefix__-id" id="id_question_set-__prefix__-id">#}
-{#          <input type="hidden" name="question_set-__prefix__-form_id" id="id_question_set-__prefix__-form_id">#}
-{#        </td>#}
-{#              <td class="field-question_text">#}
-{#                  <input type="text" name="question_set-__prefix__-question_text" class="vTextField" maxlength="100" id="id_question_set-__prefix__-question_text">#}
-{##}
-{#              </td>#}
-{#              <td class="field-is_open_question">#}
-{#                  <input type="checkbox" name="question_set-__prefix__-is_open_question" id="id_question_set-__prefix__-is_open_question" checked>#}
-{#              </td>#}
-{##}
-{#          <td class="delete"></td>#}
-{##}
-{#        </tr>#}
-{##}
-{#     </tbody>#}
-{#   </table>#}
-{#</fieldset>#}
-{#  </div>#}
-{#</div>#}
-{##}
-{#<div class="submit-row">#}
-{#<input type="submit" value="Save" class="default" name="_save">#}
-{#<input type="submit" value="Save and add another" name="_addanother">#}
-{#<input type="submit" value="Cancel" onClick="window.location.href='home'">#}
-{##}
-{#</div>#}
-{##}
-{##}
-{##}
-{#    <script type="text/javascript"#}
-{#            id="django-admin-form-add-constants"#}
-{#            src = href="{% static '/admin/js/change_form.js' %}"#}
-{#                data-model-name="form"#}
-{#            >#}
-{#    </script>#}
-{##}
-{##}
-{##}
-{##}
-{#<script type="text/javascript"#}
-{#        id="django-admin-prepopulated-fields-constants"#}
-{#        src = href="{% static '/admin/js/prepopulate_init.js' %}"#}
-{#        data-prepopulated-fields="[]">#}
-{#</script>#}
-{##}
-{##}
-{#</div>#}
-{#</form></div>#}
-{##}
-{#        #}
 {#        <br class="clear">#}
 {#    </div>#}
 {#    <!-- END Content -->#}
 {##}
 {#    <div id="footer"></div>#}
-{#  w form action uniemozliwia dodanie skurwysyna#}
 <form action="{% url 'posted' %}" method="POST">
         {% csrf_token %}
       <fieldset class="module aligned ">
         <div class="form-row field-name">
                 <div>
-                    <label class="required" for="id_name">Name:</label>
+                    <strong1>Name:</strong1>
                     <input type="text" name="form_name"/><br/>
                 </div>
         </div>
