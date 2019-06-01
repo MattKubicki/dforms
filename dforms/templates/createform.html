@@ -21,16 +21,17 @@
     function addQuestion() {
         i++;
         var div = document.createElement('div');
-
+        var str = "question_name";
+        str +=i;
         div.className = 'row';
-        div.id = 'questions';
+        div.id = 'question'+i;
         div.style = "display:flex; flex-direction: column; justify-content: left; align-items: left";
         div.innerHTML =
             '<label>Question '+ i +': <label/>'+
             '<input type="text" name="question_name[]" id="question_name'+i+'"/>'+
             ' <div id="choices_field" class="choice-row field-name" >\n' +
             '            <td>\n' +
-            '              <a href="#" onclick="addChoice()" class="addlink">Add Choice</a>\n' +
+            '              <a id="'+i+'" href="#" onclick="addChoice(this.id)" class="addlink">Add Choice</a>\n' +
             '            </td>\n' +
             '        </div>';
 
@@ -38,17 +39,32 @@
 }
 </script>
 <script type="text/javascript" >
+    {#var j=0;#}
+    {#function addChoice(currentQuestion) {#}
+    {#    j++;#}
+    {#    var div = document.createElement('div');#}
+    {#    console.log("dupa");#}
+    {#    console.log(currentQuestion);#}
+    {#    var lastChar = currentQuestion.charAt(currentQuestion.length - 1);#}
+    {#    console.log(lastChar);#}
+    {#    div.className = 'row';#}
+    {#    div.id = 'choices';#}
+    {#    div.innerHTML =#}
+    {#        '<input type="text" name="choice_name'+lastChar+'"/>';#}
+    {#wrzuc do name ostatni znak currQuestion#}
+    {#document.getElementById('questions').appendChild(div);#}
     var j=0;
-    function addChoice() {
+    function addChoice(id) {
         j++;
         var div = document.createElement('div');
-
+        var str = "question_name";
+        str+=id;
+        console.log(str);
         div.className = 'row';
         div.id = 'choices';
         div.innerHTML =
-            '<input type="text" name="choice_name'+i+'"/>';
-
-    document.getElementById('questions_field').appendChild(div);
+            '<input type="text" name="choice_name'+id+'"/>';
+    document.getElementById('question' + id).appendChild(div);
 }
 </script>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
