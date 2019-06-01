@@ -23,17 +23,30 @@
         font-size:12px;
     }
 </style>
-    <script type="text/javascript" >
-        function addChoice(currentQuestion) {
-            var span = document.createElement("span");
-            span.class="form-control";
-            span.innerHTML =
-                '<strong3>Added Choice :</strong3>'+
-                '<input type="text" name="choice_name'+currentQuestion+'" "> </br>';
-            var str = "name";
-            str+=currentQuestion;
+<script type="text/javascript" >
+    var elements = 0;
+    function addChoice(currentQuestion, elems) {
+        {#if (elems>elements)#}
+            elements = elems;
+        elements++;
+        var span = document.createElement("span");
+        span.class="form-control";
+        span.id = "choices"+elements;
+        span.innerHTML =
+            '<a href="#" onclick="removeChoice('+currentQuestion+', '+elements+')" title="Delete this form!"><i class="deletelink"></i></a>'+
+            '<strong3>Added Choice: </strong3>'+
+            '<input type="text" name="choice_name'+currentQuestion+'"> </br>';
+        var str = "name";
+        str+=currentQuestion;
         document.getElementById(str).appendChild(span);
 }
+</script>
+<script type="text/javascript" >
+    function removeChoice(currentQuestion, elems) {
+        var div = document.getElementById("name"+currentQuestion);
+        var spanToRemove = document.getElementById("choices"+elems);
+        div.removeChild(spanToRemove);
+    }
 </script>
 </head>
 <body class=" app-forms model-form change-form"
@@ -69,19 +82,21 @@
             {% for question in form.question_set.all %}
                 <div class="col-lg-6" id="name{{ forloop.counter }}">
                 <span class="form-control">
+                    <br>
                     <strong2>Question {{ forloop.counter }}:</strong2>
                     <input type="text" name="question_name[]" id="question_name{{ forloop.counter }}" value="{{ question.question_text }}"> </br>
                 </span>
                 <br>
                 {% for choice in question.choice_set.all %}
-                    <span class="form-control" id="choices">
+                    <span class="form-control" id="choices{{ forloop.counter }}">
+                        <a href="#" onclick="removeChoice({{ forloop.parentloop.counter }}, {{ forloop.counter }})" title="Delete this form!"><i class="deletelink"></i></a>
                         <strong3>Choice {{ forloop.counter }}:</strong3>
                         <input type="text" name="choice_name{{ forloop.parentloop.counter }}" value="{{ choice.choice_text }}"> </br>
                     </span>
 
                 {% endfor %}
                 <td>
-                    <a href="#" onclick="addChoice({{ forloop.counter }})" class="addlink">Add Choice</a>
+                    <a href="#" onclick="addChoice({{ forloop.counter }}, {{ question.choice_set.all|length }})" class="addlink">Add Choice</a>
                 </td>
                 <br>
                 <br>
