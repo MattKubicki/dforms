@@ -26,11 +26,12 @@
 <script type="text/javascript">
     var elements = 0;
     function addQuestion(currentQuestion, elems) {
-        elements = elems;
+        if (elems>elements)
+            elements = elems;
         elements++;
         var div = document.createElement("div");
         div.className="col-lg-6";
-        var question=currentQuestion+1;
+        var question=elements;
         div.id = "name" + question;
 
         div.innerHTML =
@@ -60,10 +61,11 @@
         span.class="form-control";
         span.id = "choices"+elements;
         span.innerHTML =
+            '<br>'+
             '<a href="#" onclick="removeChoice('+currentQuestion+', '+elements+')" title="Delete this choice!"><i class="deletelink"></i></a>'+
             '<strong3>Added Choice: </strong3>'+
             '<input type="text" name="choice_name'+currentQuestion+'"> </br>';
-        var str = "name";
+        var str = "questions";
         str+=currentQuestion;
         document.getElementById(str).appendChild(span);
 }
@@ -141,10 +143,11 @@
                 </div>
 {#{{ question.choice_set.all|length }},#}
                 <br>
+                    {% endfor %}
+
                 <td>
-                    <a href="#" onclick="addQuestion({{ forloop.counter }}, {{form.question_set.all|length}})" class="addlink">Add Question</a>
+                    <a href="#" onclick="addQuestion({{form.question_set.all|length}}, {{form.question_set.all|length}})" class="addlink">Add Question</a>
                 </td>
-            {% endfor %}
 
                 <br>
         <input type="submit" value="Post"/>
