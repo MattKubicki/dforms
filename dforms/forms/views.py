@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 # from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView
 
@@ -39,7 +39,6 @@ def login_view(request):
 
 def filled(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
-
     choice_id = request.POST['choice']
     try:
         choice = get_object_or_404(Choice, pk=choice_id)
@@ -51,7 +50,10 @@ def filled(request, form_id):
     else:
         choice.votes += 1
         choice.save()
-    return render(request, 'filled.html', {'form': form})
+    return render(request, 'question_view.html', {
+            'form': form
+        })
+    # return render(request, 'filled.html', {'form': form})
 
 
 def parse_form_input(request):
@@ -156,6 +158,10 @@ def edit_form(request, form_id):
 def plot_question(request, question_id):
     question_id = request.POST.get('question')
     question = get_object_or_404(Question, pk=question_id)
+    try:
+        form_text = question.form_id.name
+    except NameError:
+        form_text = ''
     choice_votes = []
     choice_labels = []
     total_votes = 0
@@ -171,13 +177,12 @@ def plot_question(request, question_id):
     # buf.seek(0)
     # plt.show()
     plt.savefig(figfile, format='png')
-    #plt.figure().savefig(buf, format='png')
+    # plt.figure().savefig(buf, format='png')
 
     figdata_png = base64.b64encode(figfile.getvalue())
     figfile.close()
     output = figdata_png.decode('utf8')
     # with open('plot_question.html', 'w') as f:
     #     f.write(html)
-    return render(request, 'plot_question.html', {'output': output})
-    #return HttpResponse(encoded, content_type="image/png; base64")
-    #return render(request, 'main.html')
+    text = question.question_text
+    return render(request, 'plot_question.html', {'output': output, 'question_text': text, 'form_text': form_text})

@@ -4,7 +4,7 @@
 
 <html lang="pl">
 <head>
-    <link rel="shortcut icon" href="{%  static 'icons/favicon.png' %}">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/login.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/base.css' %}">
@@ -20,49 +20,56 @@
     {% bootstrap_javascript %}
     <style>
         h1 {
-          text-align: center;
-          text-transform: uppercase;
-          color: #4c94af;
+            text-align: center;
+            text-transform: uppercase;
+            color: #4c94af;
         }
 
         p {
-          text-indent: 50px;
-          text-align: justify;
-          letter-spacing: 3px;
+            text-indent: 50px;
+            text-align: justify;
+            letter-spacing: 3px;
         }
 
         a {
-          text-decoration: none;
-          color: #008CBA;
+            text-decoration: none;
+            color: #008CBA;
         }
     </style>
 </head>
 <body>
 
 
-    {% block navigation %}
-        {% include 'navigation.html' %}
-    {% endblock %}
-    <div id="content" class="colMS">
-        <h1>Welcome to the Django Polls Service</h1>
-        <div>
-            <p class="text_main">It's here where you can make your own polls, share them and of course you are able to fill
-                already made forms</p>
+{% block navigation %}
+    {% include 'navigation.html' %}
+{% endblock %}
+<div id="content" class="colMS">
+    <h1>Django Polls Service</h1>
+    <div>
 
-            <p class="text_main">Please, log in to validate your actions or sign up if you still don't have an account. </p>
+        <h2>Showing pie chart</h2>
+        {% if form_text %}
+            <h2>Form: {{ form_text }} </h2>
+        {% endif %}
 
-        </div>
-        <div>
-{% if output %}
-    {<img src="data:image/png;base64,{{ output }}"\>
 
-{% endif %}
-</div>
+    </div>
+    <div>
+
+        {% if question_text %}
+            <h2>Question: {{ question_text }}</h2>
+        {% endif %}
+
+        {% if output %}
+            {<img src="data:image/png;base64,{{ output }}" \>
+
+        {% endif %}
+    </div>
     {% block content %}
 
     {% endblock %}
 
-    </div>
+</div>
 
 
 <footer class="footer navbar-fixed-bottom">
