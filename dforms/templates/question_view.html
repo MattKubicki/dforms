@@ -32,42 +32,46 @@
         </div>
     </div>
 
-    <div  id="content" class="colMS">
-    <h1>{{ form.name }}</h1>
+    <div id="content" class="colMS">
+        <h1>{{ form.name }}</h1>
 
-    <ul>
-        {% for question in form.question_set.all %}
-            <div class="col-lg-6">
-                <div class="input-group">
+        <ul>
+            {% for question in form.question_set.all %}
+                <form action="{% url 'plot_view' question.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ question.id }}" id="question" name="question">
+                    <input type="submit" value="plot" id='question'>
+                </form>
+                <div class="col-lg-6">
+                    <div class="input-group">
             <span class="form-control">
         <h2> {{ question.question_text }}</h2>
                         </span>
-                    <ul>
-                        <form action="{% url 'filled' form.id%}" method="post">
-                            {% csrf_token %}
+                        <ul>
+                            <form action="{% url 'filled' form.id %}" method="post">
+                                {% csrf_token %}
 
-                            {% for choice in question.choice_set.all %}
-                                <input type="radio" name="choice" id="choice{{ forloop.counter }}"
-                                       value="{{ choice.id }}" required>
-                                <label title="Votes: {{ choice.votes}}" for="choice{{ forloop.counter }}">{{ choice.choice_text}}</label>
-
-                                <br>
-                            {% endfor %}
-                        <input type="submit" value="Vote">
-                        </form>
-                    </ul>
-                    <br/>
+                                {% for choice in question.choice_set.all %}
+                                    <input type="radio" name="choice" id="choice{{ forloop.counter }}"
+                                           value="{{ choice.id }}" required>
+                                    <label title="Choices: {{ choice.votes }}"
+                                           for="choice{{ forloop.counter }}">{{ choice.choice_text }}
+                                        votes: {{ choice.votes }}</label>
+                                    <br>
+                                {% endfor %}
+                                <input type="submit" value="Vote">
+                            </form>
+                        </ul>
+                        <br/>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </ul>
-</div>
-</div>
-        <br class="clear">
+            {% endfor %}
+        </ul>
     </div>
+</div>
+<br class="clear">
+</div>
 </div>
 </body>
 </html>
-
-
 

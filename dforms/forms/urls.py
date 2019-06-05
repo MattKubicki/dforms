@@ -16,5 +16,6 @@ urlpatterns = [
     path('posted', views.posted, name='posted'),
     path('posted/<int:form_id>', views.posted_and_edit, name='posted_and_edit'),
     path('forms/remove/<int:form_id>', views.remove_form, name='delete_view'),
-    path('forms/edit/<int:form_id>', views.edit_form, name='form_view')
+    path('forms/edit/<int:form_id>', views.edit_form, name='form_view'),
+    path('forms/plot/<int:question_id>.png', views.plot_question, name='plot_view')
 ]

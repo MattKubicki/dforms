@@ -1,14 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-#from django.http import HttpResponse
-#from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.http import HttpResponse
+# from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView
 
-from forms.additional_forms import SignUpForm
-from django.views import generic
 from django.urls import reverse_lazy
 from .user_forms import CustomUserCreationForm
 from .models import Form, Question, Choice
+
+import matplotlib.pyplot as plt
+from pylab import *
+from io import BytesIO
+import base64
+from django.views import generic
+
 
 from forms.models import Form
 
@@ -35,6 +39,18 @@ def login_view(request):
 
 def filled(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
+
+    choice_id = request.POST['choice']
+    try:
+        choice = get_object_or_404(Choice, pk=choice_id)
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'question_view.html', {
+            'form': form,
+            'error_message': "No choice selected"
+        })
+    else:
+        choice.votes += 1
+        choice.save()
     return render(request, 'filled.html', {'form': form})
 
 
@@ -135,3 +151,33 @@ def create_form(request):
 def edit_form(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
     return render(request, 'form_view.html', {'form': form})
+
+
+def plot_question(request, question_id):
+    question_id = request.POST.get('question')
+    question = get_object_or_404(Question, pk=question_id)
+    choice_votes = []
+    choice_labels = []
+    total_votes = 0
+    for choice in question.choice_set.all():
+        total_votes += choice.votes
+        choice_votes.append(choice.votes)
+        choice_labels.append(choice.choice_text)
+    fig1, ax1 = plt.subplots()
+    ax1.pie(choice_votes, labels=choice_labels, shadow=True)
+    ax1.axis('equal')
+
+    figfile = BytesIO()
+    # buf.seek(0)
+    # plt.show()
+    plt.savefig(figfile, format='png')
+    #plt.figure().savefig(buf, format='png')
+
+    figdata_png = base64.b64encode(figfile.getvalue())
+    figfile.close()
+    output = figdata_png.decode('utf8')
+    # with open('plot_question.html', 'w') as f:
+    #     f.write(html)
+    return render(request, 'plot_question.html', {'output': output})
+    #return HttpResponse(encoded, content_type="image/png; base64")
+    #return render(request, 'main.html')
